@@ -1,10 +1,13 @@
 """A web application for tracking projects, students, and student grades."""
 
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, flash
+
+from flask_debugtoolbar import DebugToolbarExtension
 
 import hackbright
 
 app = Flask(__name__)
+app.secret_key = "something-random-here"
 
 @app.route("/")
 def index():
@@ -47,10 +50,13 @@ def student_add():
     github = request.form.get('github')
 
     hackbright.make_new_student(first_name, last_name, github)
+    flash('New student added.')
 
-    return redirect('/')
+    return render_template("confirmation-added.html", github = github)
 
 
 if __name__ == "__main__":
     hackbright.connect_to_db(app)
     app.run(debug=True, host="0.0.0.0")
+    DebugToolbarExtension(app)
+    # app.debug = True

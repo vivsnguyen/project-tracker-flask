@@ -16,6 +16,7 @@ def connect_to_db(app):
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///hackbright'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
     db.app = app
     db.init_app(app)
 
